@@ -1,0 +1,212 @@
+<div class="container ">
+  <!-- Tabla con Angular Material -->
+  <div class="card">
+    <div class="card-body">
+      <p class="card-title">Agrega, edita y elimina datos del producto.</p>
+
+      <button mat-flat-button data-bs-toggle="modal" data-bs-target="#modalAltaProducto" (click)=" descartarCambio()">
+        <mat-icon fontSet="fa" fontIcon="fa-plus"></mat-icon>
+        Nuevo Producto
+      </button>
+      <!-- Modal -->
+      <div class="modal fade" id="modalAltaProducto" tabindex="-1" aria-labelledby="modalAltaProducto"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header">
+              <p id="modalAltaProductoTitle">Registrar producto</p>
+              <button type="button" class="btn btn-danger btn_custom" data-bs-dismiss="modal"><i
+                  class="fas fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+              <form [formGroup]="productForm" class="row g-3">
+                <div class="col-md-12">
+                  <label for="inputNombreProducto" class="form-label">Nombre del Producto</label>
+                  <input type="email" formControlName="nombreProducto" class="form-control" id="inputNombreProducto"
+                    required>
+                </div>
+
+                <div class="col-md-6">
+                  <label for="inputcategoria" class="form-label">Categoria</label>
+                  <select id="inputcategoria" class="form-control" formControlName="categoria"
+                    aria-label="Seleccione la categoria" required>
+                    <option value="">Seleccione la categoria</option>
+                    <option *ngFor="let categoria of listaCatalogos.Categoria" [value]="categoria.id_categoria">
+                      {{categoria.nombre}}
+                    </option>
+                  </select>
+                </div>
+
+                <div class="col-md-6">
+                  <label for="inputMarca" class="form-label">Marca</label>
+                  <select id="inputMarca" class="form-control" formControlName="marca" aria-label="Seleccione la marca">
+                    <option value="">Seleccione la Marca</option>
+                    <option *ngFor="let marca of listaCatalogos.Marca" [value]="marca.id_marca">
+                      {{marca.nombre}}
+                    </option>
+                  </select>
+                </div>
+                <div class="col-md-6">
+                  <label for="inputModelo" class="form-label">Modelo</label>
+                  <select id="inputModelo" class="form-control" formControlName="modelo"
+                    aria-label="Seleccione el modelo">
+                    <option value="">Seleccione el modelo</option>
+                    <option *ngFor="let modelo of listaCatalogos.Modelo" [value]="modelo.id_modelos">
+                      {{modelo.nombre}}
+                    </option>
+                  </select>
+                </div>
+                <div class="col-md-6">
+                  <label for="inputColor" class="form-label">Color</label>
+                  <select id="inputColor" class="form-control" formControlName="color" aria-label="Seleccione el color">
+                    <option value="">Seleccione el color</option>
+                    <option *ngFor="let color of listaCatalogos.Color" [value]="color.id_color">
+                      {{color.nombre}}
+                    </option>
+                  </select>
+                </div>
+                <div class="col-md-6">
+                  <label for="inputTalla" class="form-label">Talla</label>
+                  <select id="inputTalla" class="form-control" formControlName="talla" aria-label="Seleccione la talla">
+                    <option value="">Seleccione la talla</option>
+                    <option *ngFor="let talla of listaCatalogos.Talla" [value]="talla.id_talla">
+                      {{talla.talla_mx}} MX
+                    </option>
+                  </select>
+                </div>
+                <div class="col-md-6">
+                  <label for="inputPrecioCompra" class="form-label">Precio Compra</label>
+                  <input type="number" formControlName="precioCompra" class="form-control" id="inputPrecioCompra"
+                    required>
+                </div>
+                <div class="col-md-6">
+                  <label for="inputPrecioVenta" class="form-label">Precio Venta</label>
+                  <input type="number" formControlName="precioVenta" class="form-control" id="inputPrecioVenta"
+                    required>
+                </div>
+                <div class="col-md-6">
+                  <label for="inputStock" class="form-label">Stock</label>
+                  <input type="number" formControlName="stock" class="form-control" id="inputStock" required>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                (click)="descartarCambio()">Close</button>
+              <button type="submit" class="btn btn-primary" (click)="altaProducto()" *ngIf="!isActualizacion">Registrar
+                producto</button>
+              <button type="submit" class="btn btn-primary" (click)="actualizarRegistro()"
+                *ngIf="isActualizacion">Actualizar producto</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <!-- Paginación -->
+        <div class="col-md-5 justify-content-start">
+          <mat-paginator [pageSizeOptions]="[5, 10, 20]" aria-label="Select page"></mat-paginator>
+        </div>
+        <div class="col-md-3 offset-md-4">
+          <form [formGroup]="busquedaForm">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Buscar producto por ID" formControlName="search"
+                required>
+              <button class="btn btn-outline-secondary" type="button" (click)="buscarProducto()">
+                <i class="fa fa-search"></i>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="table-responsive">
+        <table mat-table [dataSource]="dataSource" class="table table-light table-hover">
+
+          <!-- Definición de columnas -->
+          <ng-container matColumnDef="index">
+            <th mat-header-cell *matHeaderCellDef> N° </th>
+            <td mat-cell *matCellDef="let element; let i = index"> {{ i + 1 }} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="nombre">
+            <th mat-header-cell *matHeaderCellDef> Nombre </th>
+            <td mat-cell *matCellDef="let element"> {{ element.nombre }} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="categoria">
+            <th mat-header-cell *matHeaderCellDef> Categoría </th>
+            <td mat-cell *matCellDef="let element"> {{ element.Categoria.nombre }} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="marca">
+            <th mat-header-cell *matHeaderCellDef> Marca </th>
+            <td mat-cell *matCellDef="let element"> {{ element.Marca.nombre }} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="modelo">
+            <th mat-header-cell *matHeaderCellDef> Modelo </th>
+            <td mat-cell *matCellDef="let element"> {{ element.Modelo.nombre }} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="color">
+            <th mat-header-cell *matHeaderCellDef> Color </th>
+            <td mat-cell *matCellDef="let element"> {{ element.Color.nombre }} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="talla">
+            <th mat-header-cell *matHeaderCellDef> Talla </th>
+            <td mat-cell *matCellDef="let element"> {{ element.Talla.talla_mx }} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="precioCompra">
+            <th mat-header-cell *matHeaderCellDef> Precio-Compra </th>
+            <td mat-cell *matCellDef="let element"> {{ element.precio_compra | currency:'MXN':'symbol-narrow':'1.2-2' }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="precioVenta">
+            <th mat-header-cell *matHeaderCellDef> Precio-Venta </th>
+            <td mat-cell *matCellDef="let element"> {{ element.precio_venta | currency:'MXN':'symbol-narrow':'1.2-2' }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="stock">
+            <th mat-header-cell *matHeaderCellDef> Stock </th>
+            <td mat-cell *matCellDef="let element">
+              <span [ngClass]="{ 'text-warning': element.stock <= 2 }">
+                {{ element.stock }}
+                <mat-icon *ngIf="element.stock <= 2" class="text-warning" fontSet="fa"
+                  fontIcon="fa-triangle-exclamation"></mat-icon>
+              </span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="fechaRegistro">
+            <th mat-header-cell *matHeaderCellDef> Fecha de registro </th>
+            <td mat-cell *matCellDef="let element"> {{ element.fecha_registro | date:'dd/MM/yyyy' }} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="acciones">
+            <th mat-header-cell *matHeaderCellDef> Acción </th>
+            <td mat-cell *matCellDef="let element">
+              <div class="action-buttons">
+                <button mat-icon-button color="accent" data-bs-toggle="modal" data-bs-target="#modalAltaProducto"
+                  (click)="editarProducto(element)">
+                  <mat-icon fontSet="fa" fontIcon="fa-edit"></mat-icon>
+                </button>
+                <button mat-icon-button color="warn" (click)="eliminarProducto(element)">
+                  <mat-icon fontSet="fa" fontIcon="fa-trash"></mat-icon>
+                </button>
+              </div>
+            </td>
+          </ng-container>
+
+          <!-- Cabeceras de la tabla -->
+          <tr mat-header-row *matHeaderRowDef="displayedColumns sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+
+
+      </div>
+    </div>
+  </div>
+</div>

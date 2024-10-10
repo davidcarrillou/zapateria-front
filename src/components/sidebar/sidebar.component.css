@@ -1,0 +1,5 @@
+
+.dropdown-menu .dropdown-item:hover {
+    background-color: #343a40; /* Cambia este color a uno más tenue que se adapte a tu tema */
+    color: #ffffff; /* Asegúrate de que el texto siga siendo legible */
+  }

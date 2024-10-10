@@ -1,0 +1,16 @@
+.imagen-pequena {
+    width: 35px;
+    height: 35px;
+    justify-content: center;
+    /* Horizontally center content */
+  }
+
+  .btn-user{
+    margin-right: 10px;
+  }
+
+  .logo{
+    margin-left: 10px;
+    width: 100px;
+    height: 30px;
+  }

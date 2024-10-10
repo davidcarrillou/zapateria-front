@@ -1,0 +1,28 @@
+.card {
+  height: 541px;
+}
+
+.table-responsive {
+  max-width: 1240px;
+  max-height: 351px;
+}
+
+.action-buttons {
+  display: inline-flex;
+  gap: 8px;
+  /* Espacio entre los botones */
+}
+
+.btn_custom {
+  width: 24px;
+  text-align: center;
+  font-size: xx-small;
+  /* align-items: center; */
+  height: 24px;
+  padding: 0;
+  margin: calc(-.5* var(--bs-modal-header-padding-y)) calc(-.5* var(--bs-modal-header-padding-x)) calc(-.5* var(--bs-modal-header-padding-y)) auto;
+}
+
+.modal-header{
+  padding-bottom: 4px;
+}

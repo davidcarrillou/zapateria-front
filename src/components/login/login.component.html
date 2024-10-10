@@ -1,0 +1,38 @@
+<div class="login-container">
+  <div class="container main">
+    <div class="row">
+      <div class="col-md-6 side-image">
+        <!-------------      image     ------------->
+        <img src="assets/logo.png" alt="">
+      </div>
+      <div class="col-md-6 right">
+
+        <div class="input-box">
+          <header>Ingrese sus datos</header>
+          <form (ngSubmit)="onSubmit()" [formGroup]="loginForm">
+            <div class="input-field">
+              <input type="email" class="input" formControlName="email" id="email" required="" autocomplete="on">
+              <label for="email">Correo</label>
+            </div>
+            <div class="input-field">
+              <input formControlName="password" type="password" class="input" id="pass" required="">
+              <label for="pass">Contraseña</label>
+            </div>
+
+            <div class="input-field">
+              <select formControlName="role" class="form-select" required>
+                <option value="0">Selecciona un rol para usuario</option>
+                <option value="1">Administrador</option>
+                <option value="2">Vende</option>
+              </select>
+            </div>
+            <br>
+            <div class="input-field">
+              <button class="submit input" type="submit" [disabled]="!loginForm.valid">Ingresar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

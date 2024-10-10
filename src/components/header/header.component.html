@@ -1,0 +1,33 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary" style="background-color: #2d5f24;">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/home">
+      <img src="/assets/logo.png" alt="Logo" class="d-inline-block align-text-top logo">
+    </a>
+    
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      </ul>
+      <div class="navbar-nav topbar-nav ml-md-auto align-items-center btn-user">
+        <button mat-icon-button [matMenuTriggerFor]="menuProfile">
+            <mat-icon>account_circle</mat-icon>
+        </button>
+        <mat-menu #menuProfile="matMenu">
+          <div class="user-box">
+              <div class="avatar-lg">
+                  <img src="/assets/background.png" alt="Perfil" class="avatar-img rounded imagen-pequena">
+              </div>
+              <div class="u-text">
+                  <h4>{{correo}}</h4>
+                  <p class="text-muted">{{rol}}</p>
+              </div>
+          </div>
+
+          <mat-divider></mat-divider>
+          <button mat-menu-item [routerLink]="['/']">
+              Cerrar sesión
+          </button>
+      </mat-menu>
+    </div>
+    </div>
+  </div>
+</nav>
